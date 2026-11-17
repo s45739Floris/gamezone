@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GameZone — Speel. Win. Herhaal.</title>
+<style>
+:root{--bg:#0b1020;--panel:#151d35;--panel2:#1d2948;--text:#f4f7ff;--muted:#aeb9d5;--a:#7c5cff;--b:#00d4ff;--green:#42e695}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#1d2850 0,#0b1020 55%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}header{padding:26px 18px 18px;text-align:center} .logo{font-size:clamp(2.1rem,6vw,4rem);font-weight:950;letter-spacing:-2px;margin:0}.logo span{color:var(--b)}header p{color:var(--muted);margin:8px 0 0}.wrap{width:min(1050px,92%);margin:auto}.hero{background:linear-gradient(120deg,#7c5cff33,#00d4ff19);border:1px solid #ffffff20;border-radius:24px;padding:24px;margin:16px 0 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.hero h2{margin:0 0 6px;font-size:clamp(1.4rem,4vw,2rem)}.hero p{margin:0;color:var(--muted)}.pill{border:1px solid #ffffff25;border-radius:999px;padding:9px 14px;color:#dfe8ff;background:#ffffff0b;font-weight:700}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.game-card{background:linear-gradient(150deg,var(--panel2),var(--panel));border:1px solid #ffffff16;border-radius:20px;padding:20px;text-align:left;color:var(--text);cursor:pointer;transition:.18s;min-height:190px}.game-card:hover{transform:translateY(-4px);border-color:#7c5cff;box-shadow:0 12px 35px #0004}.emoji{font-size:2.7rem}.game-card h3{margin:10px 0 5px;font-size:1.2rem}.game-card p{margin:0;color:var(--muted);font-size:.94rem}.play-area{margin:24px 0;background:var(--panel);border:1px solid #ffffff1b;border-radius:22px;padding:22px;min-height:270px}.play-area h2{margin-top:0}.hidden{display:none!important}.btn{background:linear-gradient(120deg,var(--a),#5941da);border:0;color:white;border-radius:12px;padding:12px 18px;font-size:1rem;font-weight:800;cursor:pointer;margin:5px}.btn.alt{background:#293654}.btn:hover{filter:brightness(1.12)}.big-number{font-size:3.5rem;font-weight:900;margin:14px}.status{color:var(--muted);min-height:26px}.guess-input{padding:12px;border-radius:10px;border:1px solid #59678a;background:#0b1020;color:white;font-size:1rem;width:110px}.memory-grid{display:grid;grid-template-columns:repeat(4,minmax(55px,85px));gap:9px;justify-content:center;margin:18px auto}.memory-tile{font-size:1.7rem;height:72px;border-radius:12px;background:#293654;border:1px solid #ffffff20;cursor:pointer}.memory-tile:disabled{cursor:default}.track{max-width:520px;margin:20px auto;background:#0a0f1e;border-radius:15px;padding:10px;border:1px solid #ffffff20}.race-line{height:110px;border-bottom:2px dashed #7d8bad;position:relative;margin-bottom:4px}.car{position:absolute;left:0;bottom:10px;font-size:2rem;transition:left .18s}.finish{position:absolute;right:4px;bottom:0;height:100%;border-right:5px dashed white}.note{color:var(--muted);font-size:.9rem}footer{text-align:center;padding:28px;color:#8290b4;font-size:.85rem}
+</style>
+</head>
+<body>
+<header><h1 class="logo">GAME<span>ZONE</span> 🎮</h1><p>Jouw plek voor snelle, leuke mini-games.</p></header>
+<main class="wrap">
+<section class="hero"><div><h2>Welke game speel jij vandaag?</h2><p>Kies een spel, verbeter je score en probeer opnieuw!</p></div><div class="pill">✨ 4 gratis games</div></section>
+<section class="grid" aria-label="Kies een game">
+<button class="game-card" data-game="click"><div class="emoji">👆</div><h3>Click Champion</h3><p>Klik zo vaak mogelijk in 10 seconden.</p></button>
+<button class="game-card" data-game="guess"><div class="emoji">🔢</div><h3>Raad het Getal</h3><p>Kun jij het geheime getal vinden?</p></button>
+<button class="game-card" data-game="memory"><div class="emoji">🧠</div><h3>Memory Match</h3><p>Zoek alle paren bij elkaar.</p></button>
+<button class="game-card" data-game="race"><div class="emoji">🏎️</div><h3>Turbo Race</h3><p>Druk op gas en race naar de finish.</p></button>
+</section>
+<section id="playArea" class="play-area hidden" aria-live="polite">
+<button class="btn alt" id="backBtn">← Alle games</button>
+<div id="clickGame" class="hidden"><h2>👆 Click Champion</h2><p>Klik zoveel mogelijk voordat de tijd op is!</p><div class="big-number" id="clickScore">0</div><p class="status" id="clickStatus">Klaar voor de start?</p><button class="btn" id="clickBtn">Start!</button></div>
+<div id="guessGame" class="hidden"><h2>🔢 Raad het Getal</h2><p>Ik heb een getal tussen 1 en 100 gekozen.</p><input class="guess-input" id="guessInput" type="number" min="1" max="100" placeholder="1–100"><button class="btn" id="guessBtn">Raden</button><p class="status" id="guessStatus">Doe een gok!</p><button class="btn alt" id="guessReset">Nieuw getal</button></div>
+<div id="memoryGame" class="hidden"><h2>🧠 Memory Match</h2><p>Vind alle 8 bij elkaar horende kaarten.</p><p class="status" id="memoryStatus">Paren gevonden: 0 / 8</p><div id="memoryGrid" class="memory-grid"></div><button class="btn alt" id="memoryReset">Opnieuw schudden</button></div>
+<div id="raceGame" class="hidden"><h2>🏎️ Turbo Race</h2><p>Druk zo vaak mogelijk op GAS om de auto naar de finish te krijgen.</p><div class="track"><div class="race-line"><span class="car" id="car">🏎️</span><span class="finish"></span></div></div><p class="status" id="raceStatus">Klaar? Start je motor!</p><button class="btn" id="gasBtn">GAS! 🏁</button><button class="btn alt" id="raceReset">Opnieuw</button></div>
+</section>
+</main>
+<footer>Gemaakt voor gamers, door gamers. 💜 GameZone</footer>
+<script>
+const $=id=>document.getElementById(id);
+const area=$('playArea'); const gameIds=['click','guess','memory','race'];
+function showGame(name){area.classList.remove('hidden');gameIds.forEach(g=>$(g+'Game').classList.toggle('hidden',g!==name));area.scrollIntoView({behavior:'smooth',block:'start'});if(name==='guess')resetGuess();if(name==='memory')resetMemory();if(name==='race')resetRace();}
+document.querySelectorAll('[data-game]').forEach(b=>b.addEventListener('click',()=>showGame(b.dataset.game)));
+$('backBtn').addEventListener('click',()=>area.classList.add('hidden'));
+// Click Champion
+let clicks=0,clickActive=false,clickTimer=null;
+$('clickBtn').addEventListener('click',()=>{if(!clickActive){clicks=0;clickActive=true;$('clickScore').textContent='0';$('clickStatus').textContent='GO GO GO!';$('clickBtn').textContent='KLIK!';clickTimer=setTimeout(()=>{clickActive=false;$('clickStatus').textContent='Tijd! Je score is '+clicks+'. Probeer je record te breken!';$('clickBtn').textContent='Nog eens';},10000);return;}clicks++;$('clickScore').textContent=clicks;});
+// Guess the number
+let secret=0,tries=0;
+function resetGuess(){secret=Math.floor(Math.random()*100)+1;tries=0;$('guessInput').value='';$('guessStatus').textContent='Doe een gok!';}
+function makeGuess(){const n=Number($('guessInput').value);if(!n||n<1||n>100){$('guessStatus').textContent='Vul een getal van 1 tot 100 in.';return;}tries++;if(n===secret){$('guessStatus').textContent='🎉 Juist! In '+tries+' poging(en). Klik op Nieuw getal om opnieuw te spelen.';}else $('guessStatus').textContent=n<secret?'Hoger! ⬆️ ('+tries+' pogingen)':'Lager! ⬇️ ('+tries+' pogingen)';$('guessInput').select();}
+$('guessBtn').addEventListener('click',makeGuess);$('guessInput').addEventListener('keydown',e=>{if(e.key==='Enter')makeGuess()});$('guessReset').addEventListener('click',resetGuess);
+// Memory
+const symbols=['🐸','🚀','🍕','🐼','⚽','🌈','🦊','🎧'];let first=null,lock=false,matches=0;
+function resetMemory(){first=null;lock=false;matches=0;$('memoryStatus').textContent='Paren gevonden: 0 / 8';const deck=[...symbols,...symbols].sort(()=>Math.random()-.5);const grid=$('memoryGrid');grid.innerHTML='';deck.forEach((s,i)=>{const b=document.createElement('button');b.className='memory-tile';b.textContent='❔';b.dataset.symbol=s;b.setAttribute('aria-label','Verborgen kaart');b.addEventListener('click',()=>flip(b));grid.appendChild(b);});}
+function flip(b){if(lock||b.disabled||b===first)return;b.textContent=b.dataset.symbol;b.setAttribute('aria-label',b.dataset.symbol);if(!first){first=b;return;}if(first.dataset.symbol===b.dataset.symbol){first.disabled=true;b.disabled=true;first.style.background='#176a52';b.style.background='#176a52';first=null;matches++;$('memoryStatus').textContent=matches===8?'🎉 Alles gevonden! Goed gedaan!':'Paren gevonden: '+matches+' / 8';}else{lock=true;const old=first;first=null;setTimeout(()=>{old.textContent='❔';b.textContent='❔';old.setAttribute('aria-label','Verborgen kaart');b.setAttribute('aria-label','Verborgen kaart');lock=false;},650);}}
+$('memoryReset').addEventListener('click',resetMemory);
+// Turbo Race
+let distance=0,raceDone=false;
+function resetRace(){distance=0;raceDone=false;$('car').style.left='0%';$('raceStatus').textContent='Klaar? Start je motor!';}
+$('gasBtn').addEventListener('click',()=>{if(raceDone)return;distance=Math.min(100,distance+Math.floor(Math.random()*9)+8);$('car').style.left=distance+'%';if(distance>=100){raceDone=true;$('raceStatus').textContent='🏆 FINISH! Jij wint de Turbo Race!';}else $('raceStatus').textContent='Afstand: '+distance+'% — blijf gas geven!';});
+$('raceReset').addEventListener('click',resetRace);
+</script>
+</body></html>
